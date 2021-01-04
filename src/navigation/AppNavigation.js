@@ -5,13 +5,6 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MainTabScreen from './MainTabScreenNav';
 
-// import Icon from 'react-native-vector-icons'
-
-// import { THEME } from '../theme'
-// import MainScreen from '../screens/MainScreen'
-// import PostScreen from '../screens/PostScreen';
-// import MainTabScreen from './MainTabScreenNav';
-// import AboutScreen from '../screens/AboutScreen';
 
 
 
