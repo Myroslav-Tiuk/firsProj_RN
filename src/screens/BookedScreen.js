@@ -1,39 +1,28 @@
-import React, {useLayoutEffect} from 'react';
-import { View, Text, Button, StyleSheet, FlatList, Image } from 'react-native';
-import { HeaderButtons , Item} from 'react-navigation-header-buttons'
+import React, { useLayoutEffect } from 'react';
 import { DATA } from '../data';
-import Post from '../components/Post'
-import { AppHeaderIcon } from '../components/AppHeaderIcon'
 
+import PostList from '../components/PostList';
 import Ionicons from 'react-native-vector-icons/Ionicons'
-
-
-
-
 
 
 const BookedScreen = ({ navigation }) => {
 
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <Ionicons style={{ paddingLeft: 10 }} name='menu-outline' size={30} onPress={() => navigation.openDrawer()} />
+            ),
+        });
+    }, [navigation]);
     const openPostHendler = post => {
         navigation.navigate('Post', {postId: post.id, date: post.date, text: post.text, img: post.img})
     }
 
-
+    const data = DATA.filter(post => post.booked)
     return (
-        <View style={styles.wrapper}>
-            <FlatList 
-            data={DATA.filter(post => post.booked)}
-            keyExtractor={post => post.id.toString()}
-            renderItem={({item}) => <Post post={item} onOpen={openPostHendler} />}
-            />
-        </View>
+        <PostList data={data} onOpen={openPostHendler} />
     );
 }
 
-const styles = StyleSheet.create({
-    wrapper: {
-        padding: 10
-    }
-})
 
 export default BookedScreen;

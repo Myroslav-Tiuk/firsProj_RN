@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 
-const AboutScreen = ({ navigation }) => {
+const CreateScreen = ({ navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -15,9 +15,7 @@ const AboutScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text>This is the best app for you</Text>
-            <Text>Version app 1.0.0</Text>
-
+            <Text>CreateScreen</Text>
         </View>
     )
 }
@@ -31,4 +29,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default AboutScreen;
+export default CreateScreen;

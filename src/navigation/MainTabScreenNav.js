@@ -25,7 +25,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MainTabScreen = () => {
     return (
         <Tab.Navigator
-            
+
             activeColor="#f0edf6"
             shifting={true}
             // inactiveColor="#3e2465"
@@ -35,7 +35,6 @@ const MainTabScreen = () => {
                 name="MainStackScreen"
                 component={MainStackScreen}
                 options={{
-
                     tabBarLabel: 'Post',
                     tabBarColor: THEME.MAIN_COLOR,
                     tabBarLabel: 'All',
@@ -44,17 +43,6 @@ const MainTabScreen = () => {
                     ),
                 }}
             />
-
-            {/* <Tab.Screen
-                name="AboutScreen"
-                component={AboutStackScreen}
-                options={{
-                    tabBarLabel: null,
-                    tabBarIcon: ({ color }) => (
-                        <IconFontAwesome name="angellist" color={color} size={26} />
-                    ),
-                }}
-            /> */}
             <Tab.Screen
                 name="BookedScreen"
                 component={BookedStackScreen}
