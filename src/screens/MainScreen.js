@@ -1,15 +1,21 @@
-import React, { useLayoutEffect } from 'react';
-import { DATA } from '../data';
-
+import React, { useLayoutEffect, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import PostList from '../components/PostList';
-
-
-
-
+import { loadPosts } from '../store/actions/post';
+import { ImageBackground } from 'react-native';
 
 
 const MainScreen = ({ navigation }) => {
+
+    const dispatch = useDispatch()
+    const allPosts = useSelector(state => state.post.allPosts)
+
+    useEffect(() => {
+        dispatch(loadPosts())
+    }, [dispatch])
+
+
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -27,8 +33,11 @@ const MainScreen = ({ navigation }) => {
     }
 
 
+
     return (
-        <PostList data={DATA} onOpen={openPostHendler} />
+        <ImageBackground source={require('../../back.png')} style={{width: '100%'}}>
+            <PostList data={allPosts} onOpen={openPostHendler} />
+        </ImageBackground>
     );
 }
 
