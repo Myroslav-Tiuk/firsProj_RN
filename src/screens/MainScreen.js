@@ -29,7 +29,7 @@ const MainScreen = ({ navigation }) => {
     }, [navigation]);
 
     const openPostHendler = post => {
-        navigation.navigate('Post', { postId: post.id, date: post.date, text: post.text, img: post.img })
+        navigation.navigate('Post', { postId: post.id, date: post.date, text: post.text, img: post.img, booked: post.booked })
     }
 
 
