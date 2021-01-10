@@ -1,10 +1,9 @@
-import React, { useEffect, useLayoutEffect, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { View, Text, Button, StyleSheet, Image, ScrollView, Alert, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
-import { DATA } from '../data';
 import { THEME } from '../theme';
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { toggleBooked } from '../store/actions/post';
+import { removePost, toggleBooked } from '../store/actions/post';
 
 
 const PostScreen = ({ navigation, route }) => {
@@ -12,9 +11,9 @@ const PostScreen = ({ navigation, route }) => {
     const dispatch = useDispatch()
     const postId = route.params.postId
     // const booked = route.params.booked
-    const iconName = booked ? 'star-sharp' : 'star-outline'
+    // const iconName = booked ? 'star-sharp' : 'star-outline'
 
-    // const post = DATA.find(p => p.id === postId)
+    const post = useSelector(state => state.post.allPosts.find(p => p.id === postId))
 
     const removeHendler = () => {
         Alert.alert(
@@ -26,11 +25,16 @@ const PostScreen = ({ navigation, route }) => {
                     onPress: () => console.log("Cancel Pressed"),
                     style: "cancel"
                 },
-                { text: "OK", style: 'destructive', onPress: () => { console.log("OK Pressed") } }
+                { text: "OK", style: 'destructive', onPress: () => {
+                    navigation.navigate('Main')
+                    dispatch(removePost(postId))
+                } }
             ],
             { cancelable: false }
         );
     }
+    
+
 
     const booked = useSelector(state =>
         state.post.bookedPosts.some(post => post.id === postId))
@@ -55,11 +59,15 @@ const PostScreen = ({ navigation, route }) => {
         })
     }, [booked])
 
+    if (!post) {
+        return null
+    }
+
     return (
         <ScrollView>
-            <Image source={{ uri: route.params.img }} style={styles.image} />
+            <Image source={{ uri: post.img }} style={styles.image} />
             <View style={styles.textWrapp}>
-                <Text style={styles.title}>{route.params.text}</Text>
+                <Text style={styles.title}>{post.text}</Text>
                 <Button title="DELETE" color={THEME.DANGER_COLOR} onPress={removeHendler} />
             </View>
         </ScrollView>
