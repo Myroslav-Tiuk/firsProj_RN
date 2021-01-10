@@ -1,6 +1,5 @@
-import React, { useEffect, useCallback } from 'react';
-import { View, Text, Button, StyleSheet, Image, ScrollView, Alert } from 'react-native';
-import Post from '../components/Post';
+import React, { useEffect, useLayoutEffect, useCallback } from 'react';
+import { View, Text, Button, StyleSheet, Image, ScrollView, Alert, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux'
 import { DATA } from '../data';
 import { THEME } from '../theme';
@@ -11,9 +10,11 @@ import { toggleBooked } from '../store/actions/post';
 const PostScreen = ({ navigation, route }) => {
 
     const dispatch = useDispatch()
+    const postId = route.params.postId
+    // const booked = route.params.booked
+    const iconName = booked ? 'star-sharp' : 'star-outline'
 
-
-    const post = DATA.find(p => p.id === postId)
+    // const post = DATA.find(p => p.id === postId)
 
     const removeHendler = () => {
         Alert.alert(
@@ -31,40 +32,35 @@ const PostScreen = ({ navigation, route }) => {
         );
     }
 
-    const bookedToggle = useSelector(state => 
+    const booked = useSelector(state =>
         state.post.bookedPosts.some(post => post.id === postId))
 
+
     const toggleHendler = useCallback(() => {
-        console.warn(postId, 'are here')
+        console.log(booked, 'are here')
         dispatch(toggleBooked(postId))
     }, [dispatch, postId])
 
     useEffect((post) => {
-        // booked,
+        const iconName = booked ? 'star-sharp' : 'star-outline'
         console.log(post)
         navigation.setOptions({
+            booked,
             title: 'Post at ' + new Date(route.params.date).toLocaleDateString(),
             headerRight: () => (
-                <Ionicons style={{ paddingRight: 10 }} name={iconName} size={30} onPress={toggleHendler} />
+                <TouchableOpacity>
+                    <Ionicons style={{ paddingRight: 10 }} name={iconName} size={30} onPress={toggleHendler} />
+                </TouchableOpacity>
             ),
         })
-    })
-
-
-
-    const postId = route.params.postId
-    const booked = route.params.booked
-
-
-
-    const iconName = booked ? 'star-sharp' : 'star-outline'
+    }, [booked])
 
     return (
         <ScrollView>
             <Image source={{ uri: route.params.img }} style={styles.image} />
             <View style={styles.textWrapp}>
                 <Text style={styles.title}>{route.params.text}</Text>
-                <Button title="DELETE" color={THEME.DANGER_COLOR} onPress={toggleHendler} />
+                <Button title="DELETE" color={THEME.DANGER_COLOR} onPress={removeHendler} />
             </View>
         </ScrollView>
     );
