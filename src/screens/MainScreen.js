@@ -10,6 +10,7 @@ const MainScreen = ({ navigation }) => {
 
     const dispatch = useDispatch()
     const allPosts = useSelector(state => state.post.allPosts)
+    
 
     useEffect(() => {
         dispatch(loadPosts())

@@ -1,16 +1,17 @@
-import { HeaderTitle } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { View, Text, Button, StyleSheet, Image, ScrollView, Alert } from 'react-native';
 import Post from '../components/Post';
+import { useDispatch, useSelector } from 'react-redux'
 import { DATA } from '../data';
 import { THEME } from '../theme';
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { toggleBooked } from '../store/actions/post';
 
 
 const PostScreen = ({ navigation, route }) => {
-    // console.log(state.post)
 
-    // const icon = state.booked ? 'star-sharp' : 'star-outline'
+    const dispatch = useDispatch()
+
 
     const post = DATA.find(p => p.id === postId)
 
@@ -30,32 +31,40 @@ const PostScreen = ({ navigation, route }) => {
         );
     }
 
+    const bookedToggle = useSelector(state => 
+        state.post.bookedPosts.some(post => post.id === postId))
+
+    const toggleHendler = useCallback(() => {
+        console.warn(postId, 'are here')
+        dispatch(toggleBooked(postId))
+    }, [dispatch, postId])
+
     useEffect((post) => {
-        // const booked = route.params.booked
-        // const iconName = booked ? 'star-sharp' : 'star-outline'
+        // booked,
         console.log(post)
         navigation.setOptions({
-            title: 'Post at ' + new Date(route.params.date).toLocaleDateString(), 
+            title: 'Post at ' + new Date(route.params.date).toLocaleDateString(),
             headerRight: () => (
-                <Ionicons style={{ paddingRight: 10 }} name={iconName} size={30} onPress={() => Alert.alert('blablabla')} />
+                <Ionicons style={{ paddingRight: 10 }} name={iconName} size={30} onPress={toggleHendler} />
             ),
         })
     })
 
 
 
-    console.log(route.params)
     const postId = route.params.postId
     const booked = route.params.booked
 
+
+
     const iconName = booked ? 'star-sharp' : 'star-outline'
-    
+
     return (
         <ScrollView>
             <Image source={{ uri: route.params.img }} style={styles.image} />
             <View style={styles.textWrapp}>
                 <Text style={styles.title}>{route.params.text}</Text>
-                <Button title="DELETE" color={THEME.DANGER_COLOR} onPress={removeHendler} />
+                <Button title="DELETE" color={THEME.DANGER_COLOR} onPress={toggleHendler} />
             </View>
         </ScrollView>
     );
