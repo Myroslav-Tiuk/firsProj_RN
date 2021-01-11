@@ -36,7 +36,7 @@ const MainScreen = ({ navigation }) => {
 
 
     return (
-        <ImageBackground source={require('../../back.png')} style={{width: '100%'}}>
+        <ImageBackground source={require('../../back.png')} style={{flex: 1}}>
             <PostList data={allPosts} onOpen={openPostHendler} />
         </ImageBackground>
     );

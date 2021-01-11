@@ -25,7 +25,7 @@ const bookedPosts = useSelector(state => state.post.bookedPosts)
 
 
     return (
-        <ImageBackground source={require('../../back.png')} style={{ width: '100%' }}>
+        <ImageBackground source={require('../../back.png')} style={{ flex: 1 }}>
             <PostList data={bookedPosts} onOpen={openPostHendler} />
         </ImageBackground>
 

@@ -1,15 +1,16 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useRef } from 'react';
 import { StyleSheet, View, Text, TextInput, Image, Button, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { THEME } from '../theme';
 import { useDispatch } from 'react-redux'
 import { addPost } from '../store/actions/post';
+import PhotoPicker from '../components/PhotoPicker';
 
 
 const CreateScreen = ({ navigation }) => {
     const [text, setText] = useState("")
     const dispatch = useDispatch()
-    const img = 'https://proxy11.online.ua/oboi/r2-d1/004/231/167/view4bbb694ced916.jpg'
+    const imgRef = useRef()
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -23,11 +24,15 @@ const CreateScreen = ({ navigation }) => {
         const post = {
             date: new Date().toJSON(),
             text: text,
-            img: img,
+            img: imgRef.current,
             booked: false
         }
         dispatch(addPost(post))
         navigation.navigate('Main')
+    }
+
+    const photoPickHandler = path => {
+        imgRef.current = path
     }
 
     return (
@@ -41,8 +46,8 @@ const CreateScreen = ({ navigation }) => {
                         value={text}
                         onChangeText={setText}
                         multiline />
-                    <Image style={{ width: '100%', height: 200, marginBottom: 10 }} source={{ uri: img }} />
-                    <Button title='Create Post' color={THEME.MAIN_COLOR} onPress={createPostHendler} />
+                    <PhotoPicker onPick={photoPickHandler} />
+                    <Button title='Create Post' color={THEME.MAIN_COLOR} onPress={createPostHendler} disabled={!text} />
                 </View>
             </TouchableWithoutFeedback>
         </ScrollView>
